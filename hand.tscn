@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://bypm4xly08dg"]
+
+[ext_resource type="Script" uid="uid://w42trgnarpj1" path="res://hand.gd" id="1_u4p2i"]
+
+[sub_resource type="Curve2D" id="Curve2D_u4p2i"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 253, 651.649, -295.748, -387.947, 295.748, 387.947, 850, 651.649)
+}
+point_count = 2
+
+[node name="Hand" type="Node2D"]
+script = ExtResource("1_u4p2i")
+
+[node name="CardPath" type="Path2D" parent="."]
+position = Vector2(0, 507.82)
+scale = Vector2(1, 0.215116)
+curve = SubResource("Curve2D_u4p2i")
+
+[node name="CardPathFollow" type="PathFollow2D" parent="CardPath"]
+position = Vector2(253, 651.649)

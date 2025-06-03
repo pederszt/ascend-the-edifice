@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://dr7cgs8yvlaxq"]
+
+[ext_resource type="PackedScene" uid="uid://fq3j58o7tm4j" path="res://cards/attack_card.tscn" id="1_t771t"]
+[ext_resource type="Script" uid="uid://ddrypmpfc8tv7" path="res://cards/anger_card.gd" id="2_oq0a0"]
+[ext_resource type="Texture2D" uid="uid://bvp5gegtlh2pm" path="res://anger_inset.png" id="2_qst0b"]
+[ext_resource type="FontFile" uid="uid://cej263w06rtq" path="res://Kreon-VariableFont_wght.ttf" id="4_xmrff"]
+
+[node name="Anger" instance=ExtResource("1_t771t")]
+script = ExtResource("2_oq0a0")
+card_speed = 200
+
+[node name="CardArt" parent="." index="0"]
+texture = ExtResource("2_qst0b")
+
+[node name="ManaCost" parent="." index="2"]
+theme_override_fonts/normal_font = ExtResource("4_xmrff")
+theme_override_fonts/bold_font = ExtResource("4_xmrff")
+
+[node name="CollisionShape2D" parent="Area2D" index="0"]
+position = Vector2(340, 435.5)

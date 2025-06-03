@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=3 uid="uid://fq3j58o7tm4j"]
+
+[ext_resource type="PackedScene" uid="uid://bed36ymyapcpb" path="res://cards/card.tscn" id="1_t82h6"]
+[ext_resource type="Script" uid="uid://b5efgxrssxiyc" path="res://cards/attack_card.gd" id="2_0vl4p"]
+[ext_resource type="Texture2D" uid="uid://dkq8hwcygk6n8" path="res://ironclad_attack_template.png" id="2_op6p2"]
+
+[node name="Attack" instance=ExtResource("1_t82h6")]
+script = ExtResource("2_0vl4p")
+
+[node name="CardTemplate" parent="." index="1"]
+texture = ExtResource("2_op6p2")

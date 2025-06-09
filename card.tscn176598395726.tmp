@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://4shn3w3orulx"]
+
+[ext_resource type="Script" uid="uid://w1y6g3wboxsj" path="res://card.gd" id="1_kikvd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ig7tw"]
+size = Vector2(142.5, 196.5)
+
+[node name="Card" type="RigidBody2D"]
+gravity_scale = 0.0
+script = ExtResource("1_kikvd")
+
+[node name="CardCollision" type="CollisionShape2D" parent="."]
+position = Vector2(71.75, 98.75)
+shape = SubResource("RectangleShape2D_ig7tw")
+
+[node name="CardRect" type="ColorRect" parent="."]
+offset_top = 1.0
+offset_right = 143.0
+offset_bottom = 198.0
+
+[connection signal="gui_input" from="CardRect" to="." method="_on_card_rect_gui_input"]

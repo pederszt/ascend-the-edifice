@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://t1e53n8pyi3k"]
+
+[ext_resource type="Script" uid="uid://vky4q21fv0ss" path="res://main.gd" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://c5tnogc2u5l7o" path="res://arrow.tscn" id="2_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://4shn3w3orulx" path="res://card.tscn" id="2_h2yge"]
+
+[sub_resource type="Curve2D" id="Curve2D_7dm0k"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 153, 166, 0, 0, 0, 0, 229, 502, 0, 0, 0, 0, 519, 538, 0, 0, 0, 0, 894, 536, 0, 0, 0, 0, 1014, 338, 0, 0, 0, 0, 967, 107, 0, 0, 0, 0, 642, 62, 0, 0, 0, 0, 415, 53, 0, 0, 0, 0, 153, 166, 0, 0, 0, 0, 685, 854)
+}
+point_count = 10
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_ig7tw")
+
+[node name="Button" type="Button" parent="."]
+offset_left = 113.0
+offset_top = 57.0
+offset_right = 281.0
+offset_bottom = 133.0
+text = "Position"
+
+[node name="CardPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_7dm0k")
+
+[node name="CardPatFollow" type="PathFollow2D" parent="CardPath"]
+position = Vector2(153, 166)
+rotation = 1.34835
+
+[node name="Card" parent="." instance=ExtResource("2_h2yge")]
+
+[node name="PointMarker" type="ColorRect" parent="."]
+offset_left = 666.0
+offset_top = 381.0
+offset_right = 682.0
+offset_bottom = 402.0
+
+[node name="Arrow" parent="." instance=ExtResource("2_0xm2m")]
+position = Vector2(540, 281)
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

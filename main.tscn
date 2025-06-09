@@ -1,0 +1,63 @@
+[gd_scene load_steps=6 format=3 uid="uid://t1e53n8pyi3k"]
+
+[ext_resource type="Script" uid="uid://vky4q21fv0ss" path="res://main.gd" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://c5tnogc2u5l7o" path="res://arrow.tscn" id="2_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://4shn3w3orulx" path="res://card.tscn" id="2_h2yge"]
+[ext_resource type="PackedScene" uid="uid://ky2nb4w0tu8n" path="res://hand.tscn" id="4_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://dce4md1cq4ded" path="res://target_arrow.tscn" id="5_lquwl"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_ig7tw")
+card = ExtResource("2_h2yge")
+
+[node name="Button" type="Button" parent="."]
+offset_left = 113.0
+offset_top = 57.0
+offset_right = 281.0
+offset_bottom = 133.0
+text = "Position"
+
+[node name="PointMarker" type="ColorRect" parent="."]
+offset_left = 1483.0
+offset_top = 655.0
+offset_right = 1499.0
+offset_bottom = 676.0
+
+[node name="Arrow" parent="." instance=ExtResource("2_0xm2m")]
+position = Vector2(1526, 639)
+
+[node name="Hand" parent="." instance=ExtResource("4_1bvp3")]
+position = Vector2(520, 1013)
+
+[node name="TargetArrow" parent="." instance=ExtResource("5_lquwl")]
+position = Vector2(957, 676)
+
+[node name="AddX" type="TextEdit" parent="."]
+offset_left = 346.0
+offset_top = 35.0
+offset_right = 408.0
+offset_bottom = 61.0
+
+[node name="AddY" type="TextEdit" parent="."]
+offset_left = 481.0
+offset_top = 39.0
+offset_right = 542.0
+offset_bottom = 63.0
+
+[node name="XLabel" type="Label" parent="."]
+offset_left = 328.0
+offset_top = 40.0
+offset_right = 368.0
+offset_bottom = 63.0
+text = "X:"
+
+[node name="YLabel" type="Label" parent="."]
+offset_left = 465.0
+offset_top = 39.0
+offset_right = 505.0
+offset_bottom = 62.0
+text = "Y:"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="text_changed" from="AddX" to="." method="_on_add_x_text_changed"]
+[connection signal="text_changed" from="AddY" to="." method="_on_add_y_text_changed"]

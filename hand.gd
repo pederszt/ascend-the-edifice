@@ -1,6 +1,8 @@
 extends Node2D
 
 var cards = []
+var nudge_px = 8
+var rotate_step = PI/48
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -16,6 +18,15 @@ func add_card(card: Node2D) -> void:
 		return;
 	cards.append(card)
 	add_child(card)
+
+	set_positions()
+
+func set_nudge_px(px:float):
+	nudge_px = px
+	set_positions()
+	
+func set_rotate(rotate:float):
+	rotate_step = PI/rotate
 	set_positions()
 
 func set_positions() -> void:
@@ -23,14 +34,12 @@ func set_positions() -> void:
 	
 	var start = 5 - floor(float(num_cards)/2.0)
 	var ratio_step = (1.0/8.0)
-	var rotate_step = (PI / 24)
 	var half_rotate = rotate_step / 2.0
 	
 	if num_cards % 2 == 0:
 		ratio_step = (1.0/9.0)
 		start = 5 - floor(float(num_cards-1)/2.0)
 	
-	print(start," ",ratio_step)
 	var ratio = ratio_step * start;
 	var path = $HandPath/Follow
 	
@@ -45,19 +54,26 @@ func set_positions() -> void:
 		var position = path.position
 		
 		var rotate = 0
+		var nudge = 0
 		
 		if num_cards % 2 == 0:
 			rotate = ((n-5) * rotate_step) - half_rotate
+			var tmp = n
+			if tmp > 5:
+				tmp -= 1
+			
+			nudge = abs(tmp-5)*nudge_px
 			
 		else:
 			rotate = (n-5) * rotate_step
+			nudge = abs(n-5)*nudge_px
 		
-		position.y = position.y + abs(n-5)*20.0
+		position.y = position.y + nudge
 		
 		card.set_default_rotation(rotate)
 		
 		card.set_target(position)
 		card.set_text("Ratio: " + str(snappedf(ratio, 0.01))+ "\nRotate:" + str(snappedf(rotate, 0.01)))
-		
+		card.t_z_idx = n
 		ratio += ratio_step
 		n += 1

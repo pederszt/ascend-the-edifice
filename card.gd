@@ -1,10 +1,19 @@
-extends Node2D
+extends Area2D
 
+#positioning
 var t_pos : Vector2 = Vector2(0,0)
 var t_rot : float = 0.0
+var t_z_idx : int = 10
 var m_pos = null
 var follow_mouse = false
 var focus = false
+
+#metadata
+var targeted : bool = false
+var card_name : String = "Strike"
+var card_type : String = "Attack"
+
+@export var speed = 12500
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -25,10 +34,10 @@ func _process(delta: float) -> void:
 		return
 		
 	# change speed based on how far from the target we are
-	var speed = sqrt(direction.length() * 2.0) 
+	var calc_speed = sqrt(direction.length() * speed) 
 	
 	# Update position
-	position = card_position + (direction.normalized() * speed)	
+	position = card_position + (direction.normalized() * calc_speed * delta)	
 		
 
 func set_text(text: String) -> void:
@@ -51,17 +60,21 @@ func get_current_target() -> Vector2:
 	if focus and !m_pos:
 		z_index = 100
 		target.y -= 40
-		
 	else:
-		z_index = 10
+		z_index = t_z_idx
 		rotation = t_rot
-		
-	# move "anchor" of card to center
-	#target.x -= $CardRect.get_rect().size.x / 2	
-	#target.y -= $CardRect.get_rect().size.y / 8	
+
+	if m_pos:
+		rotation = 0
 	
 	return target
+	
+func set_targeted(targeted:bool) -> void:
+	self.targeted = targeted	
 
+func set_card_name(cn:String) -> void:
+	self.card_name = card_name
+	$CardNameLabel.text = self.card_name
 
 func _on_card_rect_gui_input(event: InputEventMouse) -> void:
 	if 'button_index' in event and event.button_index == 1:
@@ -76,8 +89,6 @@ func _on_card_rect_gui_input(event: InputEventMouse) -> void:
 		var relative_pos = get_global_mouse_position() - parent_pos
 		m_pos = relative_pos
 	
-	
-
 
 func _on_card_rect_mouse_entered() -> void:
 	focus = true

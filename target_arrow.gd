@@ -1,5 +1,6 @@
 extends Node2D
 
+var active = false
 var circle_cnt = 21
 var circle_step = (0.9/float(circle_cnt))
 var circles = []
@@ -24,16 +25,18 @@ func _ready() -> void:
 	$ArrowPath.curve.set_point_position(0,Vector2(0,0))
 	$ArrowPath.curve.set_point_position(1,Vector2(0,320))
 	
-	print(0, 
-	$ArrowPath.curve.get_point_position(0), 
-	$ArrowPath.curve.get_point_in(0), 
-	1,
-	$ArrowPath.curve.get_point_position(1),
-	$ArrowPath.curve.get_point_in(1) )
+func set_active(is_active: bool) -> void:
+	active = is_active
+	if active:
+		show()
+	else:
+		hide()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	
+	if !self.active:
+		return
+		
 	var anchor_pos = $ArrowPath.curve.get_point_position(0)
 	var target_pos = get_local_mouse_position()
 	
@@ -46,12 +49,9 @@ func _process(delta: float) -> void:
 	#set the end of the curve to the new target
 	$ArrowPath.curve.set_point_position(1, target_pos)
 	
-	
 	#set the point in for the last point to halfway between the two points
 	#and reasonably high up
 	var distance = (anchor_pos.x - target_pos.x)/2.0
-	
-	
 	$ArrowPath.curve.set_point_in(1, Vector2(distance,-750))
 	
 	for i in range(0,circles.size()):
@@ -61,11 +61,12 @@ func _process(delta: float) -> void:
 		circle.position = $ArrowPath/Follow.position
 		circle.texture = textures[0]
 		
+	#position the arrow head along the path
 	$ArrowPath/Follow.progress_ratio = 0.95
 	$Arrowhead.position = $ArrowPath/Follow.position
 	$ArrowPosition.position = $Arrowhead.position
 	
-	#print($Arrowhead.position.angle_to(target_pos))
+	#rotate the arrowhead to point toward the mouse
 	var rot = $Arrowhead.position.angle_to_point(target_pos)
 	$Arrowhead.rotation = rot
 

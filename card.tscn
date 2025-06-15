@@ -1,10 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://4shn3w3orulx"]
+[gd_scene load_steps=3 format=3 uid="uid://4shn3w3orulx"]
 
 [ext_resource type="Script" uid="uid://w1y6g3wboxsj" path="res://card.gd" id="1_kikvd"]
+[ext_resource type="Texture2D" uid="uid://u4d7bw45kdml" path="res://circle-white.png" id="2_rjlel"]
 
-[node name="Card" type="Node2D"]
-rotation = 0.00321321
+[node name="Card" type="Area2D"]
 script = ExtResource("1_kikvd")
+speed = 10000
 
 [node name="BorderRect" type="ColorRect" parent="."]
 offset_left = -74.0
@@ -25,6 +26,7 @@ metadata/_edit_use_anchors_ = true
 metadata/_edit_group_ = true
 
 [node name="Label" type="Label" parent="."]
+visible = false
 offset_left = -70.0
 offset_top = -45.0
 offset_right = 70.0
@@ -36,6 +38,54 @@ Test
 "
 metadata/_edit_use_anchors_ = true
 metadata/_edit_group_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-73.1828, -56.7651, -73.5466, 141.237, 70.4559, 141.774, 70.8165, -57.2278)
+metadata/_edit_lock_ = true
+
+[node name="ManaCostLabel" type="Label" parent="."]
+offset_left = -78.0
+offset_top = -61.0
+offset_right = -45.0
+offset_bottom = -26.0
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = -78.0
+offset_top = -61.0
+offset_right = 306.0
+offset_bottom = 323.0
+scale = Vector2(0.0694231, 0.0694231)
+texture = ExtResource("2_rjlel")
+
+[node name="CardNameBckgd" type="ColorRect" parent="."]
+offset_left = -52.0
+offset_top = -55.0
+offset_right = -12.0
+offset_bottom = -15.0
+scale = Vector2(2.89471, 0.468163)
+color = Color(0.666667, 0.666667, 0.666667, 1)
+
+[node name="CardNameLabel" type="RichTextLabel" parent="."]
+offset_left = -39.0
+offset_top = -56.0
+offset_right = 49.0
+offset_bottom = -32.0
+text = "CardName"
+horizontal_alignment = 1
+
+[node name="CardTextBckgd" type="ColorRect" parent="."]
+offset_left = -69.0
+offset_top = 30.0
+offset_right = -29.0
+offset_bottom = 70.0
+scale = Vector2(3.37137, 2.69629)
+color = Color(0.666667, 0.666667, 0.666667, 1)
+
+[node name="CardTextLabel" type="RichTextLabel" parent="."]
+offset_left = -70.0
+offset_top = -45.0
+offset_right = -30.0
+offset_bottom = -22.0
 
 [connection signal="gui_input" from="CardRect" to="." method="_on_card_rect_gui_input"]
 [connection signal="mouse_entered" from="CardRect" to="." method="_on_card_rect_mouse_entered"]

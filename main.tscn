@@ -29,9 +29,6 @@ position = Vector2(1526, 639)
 [node name="Hand" parent="." instance=ExtResource("4_1bvp3")]
 position = Vector2(520, 1013)
 
-[node name="TargetArrow" parent="." instance=ExtResource("5_lquwl")]
-position = Vector2(890, 645)
-
 [node name="AddX" type="TextEdit" parent="."]
 offset_left = 346.0
 offset_top = 35.0
@@ -66,12 +63,16 @@ scale = Vector2(1.06995, 1.03005)
 polygon = PackedVector2Array(-1, 3, 720, 2, 718, -512, 1, -517)
 
 [node name="ColorRect" type="ColorRect" parent="PlayArea"]
+visible = false
 z_index = -430
 offset_left = 542.0
 offset_top = 363.0
 offset_right = 1310.0
 offset_bottom = 890.0
 color = Color(0.796078, 1, 1, 1)
+
+[node name="TargetArrow" parent="." instance=ExtResource("5_lquwl")]
+position = Vector2(783, 687)
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="text_changed" from="AddX" to="." method="_on_add_x_text_changed"]

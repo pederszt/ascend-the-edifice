@@ -1,6 +1,9 @@
 extends Area2D
 
+signal card_dropped
+
 #positioning
+var override_pos = null
 var t_pos : Vector2 = Vector2(0,0)
 var t_rot : float = 0.0
 var t_z_idx : int = 10
@@ -12,13 +15,19 @@ var focus = false
 var targeted : bool = false
 var card_name : String = "Strike"
 var card_type : String = "Attack"
+var mana_cost : int = 0
 
 @export var speed = 12500
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	z_index = 10
-	pass # Replace with function body.
+	$ManaCostLabel.text = str(mana_cost)
+	
+	add_user_signal("card_dropped", [
+		{ "name": "card", "type": TYPE_OBJECT }
+	])
+
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -42,6 +51,10 @@ func _process(delta: float) -> void:
 
 func set_text(text: String) -> void:
 	$Label.text = text
+	
+func set_mana_cost(cost: int) -> void:
+	mana_cost = cost
+	$ManaCostLabel.text = str(mana_cost)
 
 func set_target(target: Vector2) -> void:
 	t_pos = target
@@ -51,30 +64,31 @@ func set_default_rotation(rot: float) -> void:
 	
 func get_current_target() -> Vector2:
 	var target = t_pos
-	if m_pos:
-		target = m_pos
 	
-	if focus or m_pos:
-		rotation = 0
+	if override_pos:
+		target = override_pos
+	elif m_pos:
+		target = m_pos
 	
 	if focus and !m_pos:
 		z_index = 100
 		target.y -= 40
 	else:
 		z_index = t_z_idx
+	
+	if focus or m_pos or override_pos:
+		rotation = 0
+	else:
 		rotation = t_rot
 
-	if m_pos:
-		rotation = 0
-	
 	return target
 	
 func set_targeted(targeted:bool) -> void:
 	self.targeted = targeted	
 
 func set_card_name(cn:String) -> void:
-	self.card_name = card_name
-	$CardNameLabel.text = self.card_name
+	card_name = cn
+	$CardNameLabel.text = card_name
 
 func _on_card_rect_gui_input(event: InputEventMouse) -> void:
 	if 'button_index' in event and event.button_index == 1:
@@ -83,15 +97,20 @@ func _on_card_rect_gui_input(event: InputEventMouse) -> void:
 		else:
 			follow_mouse = false
 			m_pos = null
+			focus = false
+			override_pos = false
+			card_dropped.emit(self)
 		
 	if follow_mouse:
 		var parent_pos = get_parent().position
 		var relative_pos = get_global_mouse_position() - parent_pos
 		m_pos = relative_pos
-	
 
-func _on_card_rect_mouse_entered() -> void:
+func _on_mouse_entered() -> void:
+	#print("AREA2D entered, L:", get_local_mouse_position(), ", G:", get_global_mouse_position())
 	focus = true
 
-func _on_card_rect_mouse_exited() -> void:
+
+func _on_mouse_exited() -> void:
+	#print("AREA2D exited, L:", get_local_mouse_position(), ", G:", get_global_mouse_position())
 	focus = false
